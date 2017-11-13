@@ -1,4 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from conans import ConanFile, CMake, tools
+import os
+
 
 class ExpatConan(ConanFile):
     """ This recipe requires conan 0.25.1 at least"""
@@ -13,39 +18,36 @@ class ExpatConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    exports = ['FindExpat.cmake', 'patches/*']
+    exports = ['FindExpat.cmake']
+    exports_sources = ['CMakeLists.txt']
 
     def source(self):
         base_url = "https://github.com/libexpat/libexpat/archive"
         zip_name = "R_2_2_5.zip"
         tools.download("%s/%s" % (base_url, zip_name), "libexpat")
         tools.unzip("libexpat")
+        os.unlink("libexpat")
 
     def build(self):
-        tools.patch(base_path = "libexpat-R_2_2_5", patch_file="patches/useConanFileAndIncreaseCMakeVersion.patch")
-
         cmake = CMake(self, parallel=True)
 
-        cmake_args = { "BUILD_doc" : "OFF",
-                       "BUILD_examples" : "OFF",
-                       "BUILD_shared" : self.options.shared,
-                       "BUILD_tests" : "OFF",
-                       "BUILD_tools" : "OFF",
-                       "CMAKE_DEBUG_POSTFIX": "d",
-                       "CMAKE_POSITION_INDEPENDENT_CODE": "ON",
-                     }
+        cmake.definitions['BUILD_doc'] = False
+        cmake.definitions['BUILD_examples'] = False
+        cmake.definitions['BUILD_tests'] = False
+        cmake.definitions['BUILD_tools'] = False
+        cmake.definitions['CMAKE_DEBUG_POSTFIX'] = 'd'
+        cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = True
+        cmake.definitions['BUILD_shared'] = self.options.shared
 
-        cmake.configure(source_dir="../libexpat-R_2_2_5/expat", build_dir="build", defs=cmake_args)
-        cmake.build(target="install")
+        cmake.configure()
+        cmake.build()
+        cmake.install()
 
     def package(self):
         self.copy("FindExpat.cmake", ".", ".")
 
     def package_info(self):
-        if self.settings.build_type == "Debug":
-            self.cpp_info.libs = ["expatd"]
-        else:
-            self.cpp_info.libs = ["expat"]
+        self.cpp_info.libs = ["expatd" if self.settings.build_type == "Debug" else "expat"]
         if not self.options.shared:
             self.cpp_info.defines = ["XML_STATIC"]
 
