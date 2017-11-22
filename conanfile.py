@@ -8,7 +8,7 @@ import os
 class ExpatConan(ConanFile):
     name = "expat"
     version = "2.2.5"
-    description = "Recipe for Expat library"
+    description = "Fast XML parser in C"
     url = "https://github.com/bincrafters/conan-expat"
     license = "https://github.com/libexpat/libexpat/blob/master/expat/COPYING"
     settings = "os", "compiler", "build_type", "arch"
