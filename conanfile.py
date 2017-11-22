@@ -6,7 +6,7 @@ import os
 
 
 class ExpatConan(ConanFile):
-    name = "Expat"
+    name = "expat"
     version = "2.2.5"
     description = "Recipe for Expat library"
     url = "https://github.com/bincrafters/conan-expat"

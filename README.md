@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/bincrafters/conan-expat.svg?branch=stable%2F2.2.5)](https://travis-ci.org/bincrafters/conan-expat)
 [![Build status](https://ci.appveyor.com/api/projects/status/gx7uih0bu4qtlhu5?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-expat)
 
-[Conan.io](https://conan.io) package for [expat](https://github.com/libexpat/expat) project
+[Conan.io](https://conan.io) package for [expat](https://github.com/libexpat/libexpat) project
 
 The packages generated with this **conanfile** can be found in [Bintray](https://bintray.com/bincrafters/public-conan/expat%3Abincrafters).
 
@@ -47,4 +47,4 @@ The following command both runs all the steps of the conan file, and publishes t
     $ conan upload expat/2.2.5@bincrafters/stable --all -r bincrafters
 
 ## License
-[GPL](LICENSE)
+[MIT](LICENSE)
