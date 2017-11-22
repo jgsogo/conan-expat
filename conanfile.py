@@ -6,27 +6,22 @@ import os
 
 
 class ExpatConan(ConanFile):
-    """ This recipe requires conan 0.25.1 at least"""
-
     name = "Expat"
     version = "2.2.5"
     description = "Recipe for Expat library"
-    license = "MIT/X Consortium license. Check file COPYING of the library"
-    url = "https://github.com/ZaMaZaN4iK/conan-expat"
-    source_url = "https://github.com/libexpat/libexpat"
+    url = "https://github.com/bincrafters/conan-expat"
+    license = "https://github.com/libexpat/libexpat/blob/master/expat/COPYING"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    exports = ['FindExpat.cmake']
+    exports = ['FindExpat.cmake', 'LICENSE']
     exports_sources = ['CMakeLists.txt']
 
     def source(self):
         base_url = "https://github.com/libexpat/libexpat/archive"
-        zip_name = "R_2_2_5.zip"
-        tools.download("%s/%s" % (base_url, zip_name), "libexpat")
-        tools.unzip("libexpat")
-        os.unlink("libexpat")
+        zip_name = "R_%s.zip" % self.version.replace(".", "_") 
+        tools.get("%s/%s" % (base_url, zip_name))
 
     def build(self):
         cmake = CMake(self, parallel=True)
