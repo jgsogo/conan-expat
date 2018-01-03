@@ -10,13 +10,13 @@ class ExpatConan(ConanFile):
     version = "2.2.5"
     description = "Fast XML parser in C"
     url = "https://github.com/bincrafters/conan-expat"
-    license = "https://github.com/libexpat/libexpat/blob/master/expat/COPYING"
+    license = "MIT"
+    exports = ['LICENSE.md', 'FindExpat.cmake']
+    exports_sources = ['CMakeLists.txt']
+    generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
-    generators = "cmake"
-    exports = ['FindExpat.cmake', 'LICENSE']
-    exports_sources = ['CMakeLists.txt']
 
     def source(self):
         base_url = "https://github.com/libexpat/libexpat/archive"
